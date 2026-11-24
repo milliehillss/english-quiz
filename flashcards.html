@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vocabulary Flashcards — Our Environment</title>
+<style>
+:root{--ink:#21324d;--muted:#68758a;--blue:#eaf0fc;--green:#e4f3e9;--paper:#f7f8fc;--line:#dce3ef}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:linear-gradient(135deg,#f5f7fc,#edf3f8);font-family:Arial,Helvetica,sans-serif;color:var(--ink);display:grid;place-items:center;padding:22px}
+main{width:min(100%,980px);text-align:center}
+.kicker{font-size:12px;font-weight:700;letter-spacing:.18em;color:#71809a;text-transform:uppercase}
+h1{font-size:clamp(25px,4vw,38px);margin:10px 0 8px;letter-spacing:.03em}
+.sub{margin:0 0 24px;color:var(--muted);font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.card{border:0;background:transparent;padding:0;min-height:150px;perspective:900px;cursor:pointer;text-align:center;color:inherit}
+.inner{height:100%;min-height:150px;position:relative;transform-style:preserve-3d;transition:transform .45s cubic-bezier(.2,.75,.25,1)}
+.card[aria-pressed="true"] .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border:1px solid var(--line);border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;backface-visibility:hidden;box-shadow:0 5px 18px #26395712}
+.front{background:var(--blue)}
+.back{background:var(--green);transform:rotateY(180deg)}
+.word{font-size:clamp(17px,2.2vw,23px);font-weight:700;line-height:1.2;overflow-wrap:anywhere}
+.hint{font-size:11px;color:var(--muted);margin-top:12px}
+.back .hint{color:#53715b}
+.controls{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap;margin-top:22px}
+button.reset{border:1px solid #cbd5e3;background:white;color:var(--ink);border-radius:999px;padding:10px 18px;font-weight:700;cursor:pointer}
+.count{font-size:13px;color:var(--muted)}
+button:focus-visible{outline:3px solid #7598d8;outline-offset:3px}
+@media(max-width:650px){body{padding:16px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card,.inner{min-height:125px}.face{border-radius:14px;padding:12px}}
+@media(prefers-reduced-motion:reduce){.inner{transition:none}}
+</style>
+</head>
+<body>
+<main>
+  <div class="kicker">Grade 8 · A2 English</div>
+  <h1>VOCABULARY CHALLENGE</h1>
+  <p class="sub">Нажми на карточку, чтобы увидеть английское слово</p>
+  <section class="grid" aria-label="Карточки для повторения слов">
+    <button class="card" type="button" aria-pressed="false"><span class="inner"><span class="face front"><span class="word">Окружающая среда</span><span class="hint">Нажми, чтобы открыть</span></span><span class="face back"><span class="word">environment</span><span class="hint">Нажми, чтобы скрыть</span></span></span></button>
+    <button class="card" type="button" aria-pressed="false"><span class="inner"><span class="face front"><span class="word">Важный, важная</span><span class="hint">Нажми, чтобы открыть</span></span><span class="face back"><span class="word">important</span><span class="hint">Нажми, чтобы скрыть</span></span></span></button>
+    <button class="card" type="button" aria-pressed="false"><span class="inner"><span class="face front"><span class="word">Однако</span><span class="hint">Нажми, чтобы открыть</span></span><span class="face back"><span class="word">however</span><span class="hint">Нажми, чтобы скрыть</span></span></span></button>
+    <button class="card" type="button" aria-pressed="false"><span class="inner"><span class="face front"><span class="word">Нуждаться</span><span class="hint">Нажми, чтобы открыть</span></span><span class="face back"><span class="word">need</span><span class="hint">Нажми, чтобы скрыть</span></span></span></button>
+    <button class="card" type="button" aria-pressed="false"><span class="inner"><span class="face front"><span class="word">Следует, нужно</span><span class="hint">Нажми, чтобы открыть</span></span><span class="face back"><span class="word">should</span><span class="hint">Нажми, чтобы скрыть</span></span></span></button>
+    <button class="card" type="button" aria-pressed="false"><span class="inner"><span class="face front"><span class="word">Защищать</span><span class="hint">Нажми, чтобы открыть</span></span><span class="face back"><span class="word">protect</span><span class="hint">Нажми, чтобы скрыть</span></span></span></button>
+    <button class="card" type="button" aria-pressed="false"><span class="inner"><span class="face front"><span class="word">Каждый, все</span><span class="hint">Нажми, чтобы открыть</span></span><span class="face back"><span class="word">everyone</span><span class="hint">Нажми, чтобы скрыть</span></span></span></button>
+    <button class="card" type="button" aria-pressed="false"><span class="inner"><span class="face front"><span class="word">Из-за, вследствие</span><span class="hint">Нажми, чтобы открыть</span></span><span class="face back"><span class="word">due to</span><span class="hint">Нажми, чтобы скрыть</span></span></span></button>
+  </section>
+  <div class="controls">
+    <span class="count" id="count" aria-live="polite">Открыто: 0 из 8</span>
+    <button class="reset" id="reset" type="button">Скрыть все карточки</button>
+  </div>
+</main>
+<script>
+const cards=[...document.querySelectorAll('.card')];
+const count=document.getElementById('count');
+function update(){const opened=cards.filter(c=>c.getAttribute('aria-pressed')==='true').length;count.textContent='Открыто: '+opened+' из '+cards.length;}
+cards.forEach(card=>card.addEventListener('click',()=>{card.setAttribute('aria-pressed',card.getAttribute('aria-pressed')==='true'?'false':'true');update();}));
+document.getElementById('reset').addEventListener('click',()=>{cards.forEach(c=>c.setAttribute('aria-pressed','false'));update();});
+</script>
+</body>
+</html>
