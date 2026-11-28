@@ -46,7 +46,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:10px}
 <header>
   <div class="tag">ENGLISH · GRADE 3</div>
   <h1>LET'S PRACTISE! ⭐</h1>
-  <p>Articles a / an · this / that / these / those</p>
+  <p>Articles a / an · this / that / these / those<br><strong>Нажми на ответ — он проверится сразу, объяснение появится под вопросом.</strong></p>
 </header>
 
 <section class="panel">
@@ -80,7 +80,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:10px}
 </section>
 
 <div class="actions">
-  <button class="primary" id="check">Check answers & send to teacher</button>
+  <button class="primary" id="check">Finish test & send result to teacher</button>
   <div id="sendStatus" style="width:100%;text-align:center;color:#69778d;font-size:14px" aria-live="polite"></div>
 </div>
 <div id="result" role="status" aria-live="polite"></div>
@@ -186,7 +186,7 @@ function render(){
         opts.appendChild(b);
       });
       wrap.appendChild(opts);
-      const feedback=document.createElement('div');feedback.className='feedback';wrap.appendChild(feedback);
+      const feedback=document.createElement('div');feedback.className='feedback';feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');wrap.appendChild(feedback);
       root.appendChild(wrap);
     });
   });
