@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>English Practice · Grade 3</title>
+<style>
+:root{--ink:#203d2d;--muted:#75877b;--green:#159b58;--green-dark:#176b3e;--mint:#e1f4e9;--pale:#f4f8f1;--pink:#e85b91;--pink-pale:#f8dce7;--line:#dce9df;--lavender:#e5ddf5}
+*{box-sizing:border-box}
+body{margin:0;padding:16px;background:var(--pale);font-family:Arial,Helvetica,sans-serif;color:var(--ink)}
+main{max-width:470px;margin:0 auto}
+header{text-align:center;padding:12px 0 18px}
+.tag{font-size:13px;letter-spacing:.08em;font-weight:800;color:var(--green)}
+h1{font-size:clamp(28px,8vw,38px);line-height:1.08;margin:8px 0 10px;color:var(--green-dark);font-weight:800}
+header p{display:block;margin:0 auto;color:var(--ink);background:#e4f3e8;border:2px solid var(--green);border-radius:14px;padding:10px 12px;max-width:100%;font-size:16px}
+.panel{background:#fff;border:2px solid var(--pink);border-radius:17px;padding:17px 15px;margin:15px 0;box-shadow:0 3px 0 #f1d8e2;overflow:hidden}
+.panel h2{font-size:17px;line-height:1.3;margin:-17px -15px 14px;padding:13px 16px;background:var(--pink);color:#fff}
+.note{color:var(--muted);font-size:13px;margin:0 0 14px;line-height:1.5}
+.task{padding:0;margin:13px 0 0;background:#fff;border:0;border-radius:0}
+.task:first-of-type{border-top:0}
+.question{font-size:18px;font-weight:700;line-height:1.4;margin:0 0 13px;padding:0;background:transparent;color:var(--ink);border-radius:0}
+.options{display:flex;flex-direction:column;gap:9px}
+.option{display:block;width:100%;min-height:54px;text-align:left;border:2px solid var(--lavender);background:#fff;border-radius:14px;padding:12px 16px;font-size:16px;color:var(--ink);cursor:pointer;transition:background .15s,border-color .15s}
+.option:hover{border-color:var(--green)}
+.option.selected{background:var(--mint);border:2px solid var(--green);font-weight:700;padding:12px 16px}
+.option.correct{background:var(--mint);border:2px solid var(--green);font-weight:700;padding:12px 16px}
+.option.wrong{background:#fff0f2;border:2px solid var(--pink);padding:12px 16px}
+.option:disabled{cursor:default;opacity:1}
+.feedback{font-size:13px;min-height:18px;margin-top:8px;color:var(--muted)}
+.actions{display:flex;flex-direction:column;justify-content:center;align-items:stretch;gap:10px;flex-wrap:wrap;margin:20px 0}
+button.primary,button.secondary{width:100%;border:0;border-radius:14px;padding:15px 18px;font-weight:700;font-size:16px;cursor:pointer}
+.primary{background:#f4b4ca;color:white;box-shadow:0 3px 0 #e9d7de}
+.primary:hover{background:var(--pink)}
+.primary:disabled{opacity:.55;cursor:default}
+.secondary{background:var(--mint);border:1px solid var(--line)!important;color:var(--green-dark)}
+#result{display:none;text-align:left;font-size:17px;font-weight:700;padding:16px;background:var(--mint);color:var(--green-dark);border-radius:14px;margin-top:12px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:10px}
+#studentName{width:100%;padding:13px;border:2px solid var(--lavender);border-radius:13px;font-size:16px;color:var(--ink);background:#fff}
+#studentName:focus{outline:2px solid #b9dfc7;outline-offset:1px}
+@media(min-width:700px){body{padding:24px}main{max-width:470px}}
+@media(max-width:380px){body{padding:12px}.panel{padding:15px 13px}.panel h2{margin:-15px -13px 13px}.question{font-size:17px}}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="tag">ENGLISH · GRADE 3</div>
+  <h1>LET'S PRACTISE! ⭐</h1>
+  <p>Articles a / an · this / that / these / those</p>
+</header>
+
+<section class="panel">
+  <h2>Your name</h2>
+  <p class="note">Напиши имя ученика, чтобы учитель знал, кто выполнил задание.</p>
+  <input id="studentName" type="text" placeholder="Имя ученика" style="width:100%;padding:12px;border:1px solid #dce4ef;border-radius:12px;font-size:16px">
+</section>
+
+<section class="panel">
+  <h2>1. Choose a or an</h2>
+  <p class="note">Choose the correct word. Помни: an ставим перед гласным звуком.</p>
+  <div id="a-an"></div>
+</section>
+
+<section class="panel">
+  <h2>2. Choose this, that, these or those</h2>
+  <p class="note">This / these — рядом. That / those — далеко. This / that — один предмет. These / those — несколько.</p>
+  <div id="demonstratives"></div>
+</section>
+
+<section class="panel">
+  <h2>3. Complete the sentences</h2>
+  <p class="note">Выбери подходящее слово.</p>
+  <div id="mixed"></div>
+</section>
+
+<section class="panel">
+  <h2>4. Find the odd one out</h2>
+  <p class="note">Выбери слово, которое не подходит к остальным.</p>
+  <div id="odd"></div>
+</section>
+
+<div class="actions">
+  <button class="primary" id="check">Check answers & send to teacher</button>
+  <div id="sendStatus" style="width:100%;text-align:center;color:#69778d;font-size:14px" aria-live="polite"></div>
+</div>
+<div id="result" role="status" aria-live="polite"></div>
+<footer>Good job! Keep learning English! 🌈</footer>
+</main>
+<script>
+const groups = [
+{id:'a-an',items:[
+{q:'1. ___ apple',opts:['a','an'],a:'an'},
+{q:'2. ___ bus',opts:['a','an'],a:'a'},
+{q:'3. ___ orange',opts:['a','an'],a:'an'},
+{q:'4. ___ watch',opts:['a','an'],a:'a'},
+{q:'5. ___ elephant',opts:['a','an'],a:'an'},
+{q:'6. ___ present',opts:['a','an'],a:'a'}
+]},
+{id:'demonstratives',items:[
+{q:'1. (one toy near you) ___ toy',opts:['This','That','These','Those'],a:'This'},
+{q:'2. (one bus far away) ___ bus',opts:['This','That','These','Those'],a:'That'},
+{q:'3. (two boxes near you) ___ boxes',opts:['This','That','These','Those'],a:'These'},
+{q:'4. (three bikes far away) ___ bikes',opts:['This','That','These','Those'],a:'Those'},
+{q:'5. (one watch near you) ___ watch',opts:['This','That','These','Those'],a:'This'},
+{q:'6. (two presents far away) ___ presents',opts:['This','That','These','Those'],a:'Those'}
+]},
+{id:'mixed',items:[
+{q:'1. I can see ___ toy shop over there.',opts:['a','an','this','that'],a:'that'},
+{q:'2. ___ are my pencils here.',opts:['This','That','These','Those'],a:'These'},
+{q:'3. It is ___ big box.',opts:['a','an'],a:'a'},
+{q:'4. Look at ___ bus over there!',opts:['this','that','these','those'],a:'that'},
+{q:'5. She has ___ umbrella.',opts:['a','an'],a:'an'},
+{q:'6. ___ flowers here are beautiful.',opts:['This','That','These','Those'],a:'These'}
+]},
+{id:'odd',items:[
+{q:'1. Which word is different?',opts:['bus','car','apple','bike'],a:'apple'},
+{q:'2. Which word is different?',opts:['box','present','watch','banana'],a:'banana'},
+{q:'3. Which word is different?',opts:['this','that','these','an'],a:'an'}
+]}
+];
+const explanations = {
+'a-an': [
+  'Apple начинается с гласного звука /æ/, поэтому используем an.',
+  'Bus начинается с согласного звука /b/, поэтому используем a.',
+  'Orange начинается с гласного звука /ɒ/, поэтому используем an.',
+  'Watch начинается с согласного звука /w/, поэтому используем a.',
+  'Elephant начинается с гласного звука /e/, поэтому используем an.',
+  'Present начинается с согласного звука /p/, поэтому используем a.'
+],
+demonstratives: [
+  'This используем для одного предмета, который находится рядом.',
+  'That используем для одного предмета, который находится далеко.',
+  'These используем для нескольких предметов рядом.',
+  'Those используем для нескольких предметов далеко.',
+  'This — один предмет рядом.',
+  'Those — несколько предметов далеко.'
+],
+mixed: [
+  'That подходит, потому что toy shop находится далеко (over there).',
+  'These — несколько предметов рядом; слово pencils стоит во множественном числе.',
+  'Big начинается с согласного звука /b/, поэтому нужен артикль a.',
+  'That используем для одного предмета, который находится далеко (over there).',
+  'Umbrella начинается с гласного звука /ʌ/, поэтому нужен an.',
+  'These — несколько цветов рядом; flowers стоит во множественном числе.'
+],
+odd: [
+  'Apple — фрукт, а bus, car и bike — виды транспорта.',
+  'Banana — фрукт, а box, present и watch — не фрукты.',
+  'An — артикль, а this, that и these — указательные слова.'
+]
+};
+const answers = new Map();
+const locked = new Set();
+const WEBHOOK = 'https://script.google.com/macros/s/AKfycbyTfcFy04_nknCXaI1bhrIi19NRu_jGHfF8IoqnlxBwSLS3vq3kaw62qME0J2dgGcKxAw/exec';
+let submitted = false;
+function render(){
+  groups.forEach(group=>{
+    const root=document.getElementById(group.id);
+    root.innerHTML='';
+    group.items.forEach((item,index)=>{
+      const wrap=document.createElement('div');wrap.className='task';
+      const q=document.createElement('div');q.className='question';q.textContent=item.q;wrap.appendChild(q);
+      const opts=document.createElement('div');opts.className='options';
+      item.opts.forEach(opt=>{
+        const b=document.createElement('button');b.type='button';b.className='option';b.textContent=opt;
+        b.addEventListener('click',()=>{
+          const key=group.id+':'+index;
+          if(submitted || locked.has(key)) return;
+          locked.add(key);
+          answers.set(key,opt.toLowerCase());
+          const isCorrect=opt.toLowerCase()===item.a.toLowerCase();
+          opts.querySelectorAll('button').forEach(x=>{
+            x.disabled=true;
+            if(x.textContent.toLowerCase()===item.a.toLowerCase()) x.classList.add('correct');
+            if(x===b && !isCorrect) x.classList.add('wrong');
+          });
+          const feedback=wrap.querySelector('.feedback');
+          if(isCorrect){
+            feedback.textContent='✓ Верно! '+explanations[group.id][index];
+            feedback.style.color='#176b3e';
+          } else {
+            feedback.textContent='✗ Не совсем. Правильный ответ: '+item.a+'. '+explanations[group.id][index];
+            feedback.style.color='#b04468';
+          }
+        });
+        opts.appendChild(b);
+      });
+      wrap.appendChild(opts);
+      const feedback=document.createElement('div');feedback.className='feedback';wrap.appendChild(feedback);
+      root.appendChild(wrap);
+    });
+  });
+}
+async function check(){
+ if(submitted){document.getElementById('sendStatus').textContent='Попытка уже использована.';return;}
+ const student=document.getElementById('studentName').value.trim();
+ if(!student){document.getElementById('sendStatus').textContent='Сначала напиши имя ученика.';document.getElementById('studentName').focus();return;}
+ submitted=true;
+ document.querySelectorAll('.option').forEach(b=>b.disabled=true);
+ document.getElementById('check').disabled=true;
+ let total=0,score=0;
+ groups.forEach(group=>{
+  group.items.forEach((item,index)=>{
+   total++;const key=group.id+':'+index;const chosen=answers.get(key);const wrap=document.getElementById(group.id).children[index];
+   const buttons=[...wrap.querySelectorAll('.option')];
+   if(chosen===item.a.toLowerCase()) score++;
+   if(!chosen){
+     buttons.forEach(b=>{b.disabled=true;if(b.textContent.toLowerCase()===item.a.toLowerCase())b.classList.add('correct');});
+     const feedback=wrap.querySelector('.feedback');
+     feedback.textContent='Без ответа. Правильный ответ: '+item.a+'. '+explanations[group.id][index];
+     feedback.style.color='#b04468';
+   }
+  });
+ });
+ const result=document.getElementById('result');result.style.display='block';
+ result.textContent='Your score: '+score+' / '+total+' 🌟';
+ const payload={name:student,quiz:'Grade 3 — Articles a/an, this/that/these/those',score:score+'/'+total,answers:groups.flatMap(group=>group.items.map((item,index)=>({question:item.q,selected:answers.get(group.id+':'+index)||'Нет ответа',answer:answers.get(group.id+':'+index)||'Нет ответа',correct:item.a,isCorrect:(answers.get(group.id+':'+index)||'').toLowerCase()===item.a.toLowerCase()})))};
+ document.getElementById('sendStatus').textContent='Отправляем ответы учителю…';
+ try{await fetch(WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});document.getElementById('sendStatus').textContent='Результат отправлен учителю. Спасибо за работу!';}catch(e){document.getElementById('sendStatus').textContent='Не удалось отправить результат. Проверь интернет и попробуй ещё раз.';}
+}
+document.getElementById('check').addEventListener('click',check);
+render();
+</script>
+</body>
+</html>
