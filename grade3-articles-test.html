@@ -80,7 +80,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:10px}
 </section>
 
 <div class="actions">
-  <button class="primary" id="check">Finish test & send result to teacher</button>
+  <button class="primary" id="check">Finish & send result to teacher</button>
   <div id="sendStatus" style="width:100%;text-align:center;color:#69778d;font-size:14px" aria-live="polite"></div>
 </div>
 <div id="result" role="status" aria-live="polite"></div>
@@ -156,41 +156,68 @@ let submitted = false;
 function render(){
   groups.forEach(group=>{
     const root=document.getElementById(group.id);
-    root.innerHTML='';
+    root.replaceChildren();
     group.items.forEach((item,index)=>{
-      const wrap=document.createElement('div');wrap.className='task';
-      const q=document.createElement('div');q.className='question';q.textContent=item.q;wrap.appendChild(q);
-      const opts=document.createElement('div');opts.className='options';
+      const wrap=document.createElement('div');
+      wrap.className='task';
+      const q=document.createElement('div');
+      q.className='question';
+      q.textContent=item.q;
+      wrap.appendChild(q);
+      const opts=document.createElement('div');
+      opts.className='options';
       item.opts.forEach(opt=>{
-        const b=document.createElement('button');b.type='button';b.className='option';b.textContent=opt;
-        b.addEventListener('click',()=>{
-          const key=group.id+':'+index;
-          if(submitted || locked.has(key)) return;
-          locked.add(key);
-          answers.set(key,opt.toLowerCase());
-          const isCorrect=opt.toLowerCase()===item.a.toLowerCase();
-          opts.querySelectorAll('button').forEach(x=>{
-            x.disabled=true;
-            if(x.textContent.toLowerCase()===item.a.toLowerCase()) x.classList.add('correct');
-            if(x===b && !isCorrect) x.classList.add('wrong');
-          });
-          const feedback=wrap.querySelector('.feedback');
-          if(isCorrect){
-            feedback.textContent='✓ Верно! '+explanations[group.id][index];
-            feedback.style.color='#176b3e';
-          } else {
-            feedback.textContent='✗ Не совсем. Правильный ответ: '+item.a+'. '+explanations[group.id][index];
-            feedback.style.color='#b04468';
-          }
-        });
+        const b=document.createElement('button');
+        b.type='button';
+        b.className='option';
+        b.textContent=opt;
+        b.dataset.group=group.id;
+        b.dataset.index=String(index);
         opts.appendChild(b);
       });
       wrap.appendChild(opts);
-      const feedback=document.createElement('div');feedback.className='feedback';feedback.setAttribute('role','status');feedback.setAttribute('aria-live','polite');wrap.appendChild(feedback);
+      const feedback=document.createElement('div');
+      feedback.className='feedback';
+      feedback.setAttribute('role','status');
+      feedback.setAttribute('aria-live','polite');
+      wrap.appendChild(feedback);
       root.appendChild(wrap);
     });
   });
 }
+
+/* Проверка срабатывает непосредственно при нажатии на любой вариант. */
+document.addEventListener('click',event=>{
+  const button=event.target.closest('button.option');
+  if(!button || submitted) return;
+  const group=groups.find(g=>g.id===button.dataset.group);
+  if(!group) return;
+  const index=Number(button.dataset.index);
+  const item=group.items[index];
+  if(!item) return;
+  const key=group.id+':'+index;
+  if(locked.has(key)) return;
+
+  locked.add(key);
+  const chosen=button.textContent.trim().toLowerCase();
+  answers.set(key,chosen);
+  const isCorrect=chosen===item.a.toLowerCase();
+  const task=button.closest('.task');
+  task.querySelectorAll('button.option').forEach(option=>{
+    option.disabled=true;
+    if(option.textContent.trim().toLowerCase()===item.a.toLowerCase()){
+      option.classList.add('correct');
+    }
+    if(option===button && !isCorrect){
+      option.classList.add('wrong');
+    }
+  });
+  const feedback=task.querySelector('.feedback');
+  feedback.textContent=isCorrect
+    ? '✓ Верно! '+explanations[group.id][index]
+    : '✗ Не совсем. Правильный ответ: '+item.a+'. '+explanations[group.id][index];
+  feedback.style.color=isCorrect?'#176b3e':'#b04468';
+});
 async function check(){
  if(submitted){document.getElementById('sendStatus').textContent='Попытка уже использована.';return;}
  const student=document.getElementById('studentName').value.trim();
