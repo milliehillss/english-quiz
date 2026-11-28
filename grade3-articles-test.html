@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>English Practice · Grade 3</title>
+<title>Тренажёр по английскому · 3 класс</title>
 <style>
 :root{--ink:#203d2d;--muted:#75877b;--green:#159b58;--green-dark:#176b3e;--mint:#e1f4e9;--pale:#f4f8f1;--pink:#e85b91;--pink-pale:#f8dce7;--line:#dce9df;--lavender:#e5ddf5}
 *{box-sizing:border-box}
@@ -44,41 +44,56 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:10px}
 <body>
 <main>
 <header>
-  <div class="tag">ENGLISH · GRADE 3</div>
-  <h1>LET'S PRACTISE! ⭐</h1>
-  <p>Articles a / an · this / that / these / those<br><strong>Нажми на ответ — он проверится сразу, объяснение появится под вопросом.</strong></p>
+  <div class="tag">АНГЛИЙСКИЙ ЯЗЫК · 3 КЛАСС</div>
+  <h1>ДАВАЙ ПОВТОРИМ! ⭐</h1>
+  <p>Тема: артикли a / an и указательные слова this / that / these / those.<br><strong>Выбери ответ — проверка и объяснение появятся сразу под вопросом.</strong></p>
 </header>
 
+<section class="panel" id="reminder">
+  <h2>Вспомни правило перед началом</h2>
+  <p class="note"><strong>1. Артикли a / an</strong><br>
+  <b>a</b> ставим перед словом, которое начинается с согласного звука: <i>a bus, a toy, a box</i>.<br>
+  <b>an</b> ставим перед словом, которое начинается с гласного звука: <i>an apple, an orange, an umbrella</i>.</p>
+  <p class="note"><strong>2. Указательные слова this / that / these / those</strong><br>
+  <b>this</b> — один предмет рядом: <i>this toy</i>.<br>
+  <b>that</b> — один предмет далеко: <i>that bus</i>.<br>
+  <b>these</b> — несколько предметов рядом: <i>these boxes</i>.<br>
+  <b>those</b> — несколько предметов далеко: <i>those bikes</i>.</p>
+  <p class="note"><strong>Как запомнить?</strong><br>
+  This / that — один предмет. These / those — несколько предметов.<br>
+  This / these — рядом. That / those — далеко.</p>
+</section>
+
 <section class="panel">
-  <h2>Your name</h2>
+  <h2>Имя ученика</h2>
   <p class="note">Напиши имя ученика, чтобы учитель знал, кто выполнил задание.</p>
   <input id="studentName" type="text" placeholder="Имя ученика" style="width:100%;padding:12px;border:1px solid #dce4ef;border-radius:12px;font-size:16px">
 </section>
 
 <section class="panel">
-  <h2>1. Choose a or an</h2>
-  <p class="note">Choose the correct word. Помни: an ставим перед гласным звуком.</p>
+  <h2>1. Выбери a или an</h2>
+  <p class="note">Выбери правильный вариант. Помни: an ставим перед гласным звуком, а a — перед согласным.</p>
   <div id="a-an"></div>
 </section>
 
 <section class="panel">
-  <h2>2. Choose this, that, these or those</h2>
-  <p class="note">This / these — рядом. That / those — далеко. This / that — один предмет. These / those — несколько.</p>
+  <h2>2. Выбери this, that, these или those</h2>
+  <p class="note">This / these — предметы рядом. That / those — предметы далеко. This / that — один предмет. These / those — несколько предметов.</p>
   <div id="demonstratives"></div>
 </section>
 
 <section class="panel">
-  <h2>3. Complete the sentences</h2>
+  <h2>3. Закончи предложения</h2>
   <p class="note">Выбери подходящее слово.</p>
   <div id="mixed"></div>
 </section>
 
 <div class="actions">
-  <button class="primary" id="check">Finish & send result to teacher</button>
+  <button class="primary" id="check">Завершить и отправить результат учителю</button>
   <div id="sendStatus" style="width:100%;text-align:center;color:#69778d;font-size:14px" aria-live="polite"></div>
 </div>
 <div id="result" role="status" aria-live="polite"></div>
-<footer>Good job! Keep learning English! 🌈</footer>
+<footer>Молодец! Продолжай учить английский! 🌈</footer>
 </main>
 <script>
 const groups = [
@@ -91,12 +106,12 @@ const groups = [
 {q:'6. ___ present',opts:['a','an'],a:'a'}
 ]},
 {id:'demonstratives',items:[
-{q:'1. (one toy near you) ___ toy',opts:['This','That','These','Those'],a:'This'},
-{q:'2. (one bus far away) ___ bus',opts:['This','That','These','Those'],a:'That'},
-{q:'3. (two boxes near you) ___ boxes',opts:['This','That','These','Those'],a:'These'},
-{q:'4. (three bikes far away) ___ bikes',opts:['This','That','These','Those'],a:'Those'},
-{q:'5. (one watch near you) ___ watch',opts:['This','That','These','Those'],a:'This'},
-{q:'6. (two presents far away) ___ presents',opts:['This','That','These','Those'],a:'Those'}
+{q:'1. (одна игрушка рядом) ___ toy',opts:['This','That','These','Those'],a:'This'},
+{q:'2. (один автобус далеко) ___ bus',opts:['This','That','These','Those'],a:'That'},
+{q:'3. (две коробки рядом) ___ boxes',opts:['This','That','These','Those'],a:'These'},
+{q:'4. (три велосипеда далеко) ___ bikes',opts:['This','That','These','Those'],a:'Those'},
+{q:'5. (одни часы рядом) ___ watch',opts:['This','That','These','Those'],a:'This'},
+{q:'6. (два подарка далеко) ___ presents',opts:['This','That','These','Those'],a:'Those'}
 ]},
 {id:'mixed',items:[
 {q:'1. I can see ___ toy shop over there.',opts:['a','an','this','that'],a:'that'},
@@ -125,12 +140,12 @@ demonstratives: [
   'Those — несколько предметов далеко.'
 ],
 mixed: [
-  'That подходит, потому что toy shop находится далеко (over there).',
-  'These — несколько предметов рядом; слово pencils стоит во множественном числе.',
+  'That подходит, потому что магазин игрушек находится далеко (over there).',
+  'These используем для нескольких предметов рядом. Pencils — карандаши, это множественное число.',
   'Big начинается с согласного звука /b/, поэтому нужен артикль a.',
   'That используем для одного предмета, который находится далеко (over there).',
   'Umbrella начинается с гласного звука /ʌ/, поэтому нужен an.',
-  'These — несколько цветов рядом; flowers стоит во множественном числе.'
+  'These используем для нескольких предметов рядом. Flowers — цветы, это множественное число.'
 ]
 };
 const answers = new Map();
@@ -213,8 +228,8 @@ async function check(){
   });
  });
  const result=document.getElementById('result');result.style.display='block';
- result.textContent='Your score: '+score+' / '+total+' 🌟';
- const payload={name:student,quiz:'Grade 3 — Articles a/an, this/that/these/those',score:score+'/'+total,answers:groups.flatMap(group=>group.items.map((item,index)=>({question:item.q,selected:answers.get(group.id+':'+index)||'Нет ответа',answer:answers.get(group.id+':'+index)||'Нет ответа',correct:item.a,isCorrect:(answers.get(group.id+':'+index)||'').toLowerCase()===item.a.toLowerCase()})))};
+ result.textContent='Твой результат: '+score+' из '+total+' 🌟';
+ const payload={name:student,quiz:'3 класс — артикли a/an и указательные слова',score:score+'/'+total,answers:groups.flatMap(group=>group.items.map((item,index)=>({question:item.q,selected:answers.get(group.id+':'+index)||'Нет ответа',answer:answers.get(group.id+':'+index)||'Нет ответа',correct:item.a,isCorrect:(answers.get(group.id+':'+index)||'').toLowerCase()===item.a.toLowerCase()})))};
  document.getElementById('sendStatus').textContent='Отправляем ответы учителю…';
  try{await fetch(WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});document.getElementById('sendStatus').textContent='Результат отправлен учителю. Спасибо за работу!';}catch(e){document.getElementById('sendStatus').textContent='Не удалось отправить результат. Проверь интернет и попробуй ещё раз.';}
 }
