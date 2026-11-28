@@ -44,6 +44,12 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:10px}
 </header>
 
 <section class="panel">
+  <h2>Your name</h2>
+  <p class="note">Напиши имя ученика, чтобы учитель знал, кто выполнил задание.</p>
+  <input id="studentName" type="text" placeholder="Имя ученика" style="width:100%;padding:12px;border:1px solid #dce4ef;border-radius:12px;font-size:16px">
+</section>
+
+<section class="panel">
   <h2>1. Choose a or an</h2>
   <p class="note">Choose the correct word. Помни: an ставим перед гласным звуком.</p>
   <div id="a-an"></div>
@@ -68,8 +74,9 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:10px}
 </section>
 
 <div class="actions">
-  <button class="primary" id="check">Check my answers</button>
+  <button class="primary" id="check">Check answers & send to teacher</button>
   <button class="secondary" id="reset">Try again</button>
+  <div id="sendStatus" style="width:100%;text-align:center;color:#69778d;font-size:14px" aria-live="polite"></div>
 </div>
 <div id="result" role="status" aria-live="polite"></div>
 <footer>Good job! Keep learning English! 🌈</footer>
@@ -93,7 +100,7 @@ const groups = [
 {q:'6. (two presents far away) ___ presents',opts:['This','That','These','Those'],a:'Those'}
 ]},
 {id:'mixed',items:[
-{q:'1. I can see ___ toy shop over there.',opts:['a','an','this','those'],a:'that'},
+{q:'1. I can see ___ toy shop over there.',opts:['a','an','this','that'],a:'that'},
 {q:'2. ___ are my pencils here.',opts:['This','That','These','Those'],a:'These'},
 {q:'3. It is ___ big box.',opts:['a','an'],a:'a'},
 {q:'4. Look at ___ bus over there!',opts:['this','that','these','those'],a:'that'},
@@ -107,6 +114,8 @@ const groups = [
 ]}
 ];
 const answers = new Map();
+const WEBHOOK = 'https://script.google.com/macros/s/AKfycbyTfcFy04_nknCXaI1bhrIi19NRu_jGHfF8IoqnlxBwSLS3vq3kaw62qME0J2dgGcKxAw/exec';
+let submitted = false;
 function render(){
   groups.forEach(group=>{
     const root=document.getElementById(group.id);
@@ -131,7 +140,10 @@ function render(){
     });
   });
 }
-function check(){
+async function check(){
+ if(submitted){document.getElementById('sendStatus').textContent='Этот результат уже отправлен. Нажми Try again, чтобы пройти заново.';return;}
+ const student=document.getElementById('studentName').value.trim();
+ if(!student){document.getElementById('sendStatus').textContent='Сначала напиши имя ученика.';document.getElementById('studentName').focus();return;}
  let total=0,score=0;
  groups.forEach(group=>{
   group.items.forEach((item,index)=>{
@@ -145,8 +157,11 @@ function check(){
  });
  const result=document.getElementById('result');result.style.display='block';
  result.textContent='Your score: '+score+' / '+total+' 🌟';
+ const payload={name:student,quiz:'Grade 3 — Articles a/an, this/that/these/those',score:score+'/'+total,answers:groups.flatMap(group=>group.items.map((item,index)=>({question:item.q,selected:answers.get(group.id+':'+index)||'Нет ответа',answer:answers.get(group.id+':'+index)||'Нет ответа',correct:item.a,isCorrect:(answers.get(group.id+':'+index)||'').toLowerCase()===item.a.toLowerCase()})))};
+ document.getElementById('sendStatus').textContent='Отправляем ответы учителю…';
+ try{await fetch(WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});submitted=true;document.getElementById('sendStatus').textContent='Результат отправлен учителю. Можно пройти заново кнопкой Try again.';}catch(e){document.getElementById('sendStatus').textContent='Не удалось отправить результат. Проверь интернет и попробуй ещё раз.';}
 }
-function reset(){answers.clear();render();const result=document.getElementById('result');result.style.display='none';}
+function reset(){answers.clear();submitted=false;render();const result=document.getElementById('result');result.style.display='none';document.getElementById('sendStatus').textContent='Можно начинать заново!';document.getElementById('check').disabled=false;window.scrollTo({top:0,behavior:'smooth'});}
 document.getElementById('check').addEventListener('click',check);
 document.getElementById('reset').addEventListener('click',reset);
 render();
