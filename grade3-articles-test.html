@@ -73,12 +73,6 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:10px}
   <div id="mixed"></div>
 </section>
 
-<section class="panel">
-  <h2>4. Find the odd one out</h2>
-  <p class="note">Выбери слово, которое не подходит к остальным.</p>
-  <div id="odd"></div>
-</section>
-
 <div class="actions">
   <button class="primary" id="check">Finish & send result to teacher</button>
   <div id="sendStatus" style="width:100%;text-align:center;color:#69778d;font-size:14px" aria-live="polite"></div>
@@ -112,11 +106,6 @@ const groups = [
 {q:'5. She has ___ umbrella.',opts:['a','an'],a:'an'},
 {q:'6. ___ flowers here are beautiful.',opts:['This','That','These','Those'],a:'These'}
 ]},
-{id:'odd',items:[
-{q:'1. Which word is different?',opts:['bus','car','apple','bike'],a:'apple'},
-{q:'2. Which word is different?',opts:['box','present','watch','banana'],a:'banana'},
-{q:'3. Which word is different?',opts:['this','that','these','an'],a:'an'}
-]}
 ];
 const explanations = {
 'a-an': [
@@ -142,11 +131,6 @@ mixed: [
   'That используем для одного предмета, который находится далеко (over there).',
   'Umbrella начинается с гласного звука /ʌ/, поэтому нужен an.',
   'These — несколько цветов рядом; flowers стоит во множественном числе.'
-],
-odd: [
-  'Apple — фрукт, а bus, car и bike — виды транспорта.',
-  'Banana — фрукт, а box, present и watch — не фрукты.',
-  'An — артикль, а this, that и these — указательные слова.'
 ]
 };
 const answers = new Map();
