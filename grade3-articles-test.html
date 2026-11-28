@@ -153,6 +153,28 @@ const answers = new Map();
 const locked = new Set();
 const WEBHOOK = 'https://script.google.com/macros/s/AKfycbyTfcFy04_nknCXaI1bhrIi19NRu_jGHfF8IoqnlxBwSLS3vq3kaw62qME0J2dgGcKxAw/exec';
 let submitted = false;
+function selectAnswer(group,index,button){
+  if(submitted) return;
+  const item=group.items[index];
+  if(!item) return;
+  const key=group.id+':'+index;
+  if(locked.has(key)) return;
+  locked.add(key);
+  const chosen=button.textContent.trim().toLowerCase();
+  answers.set(key,chosen);
+  const isCorrect=chosen===item.a.toLowerCase();
+  const task=button.closest('.task');
+  task.querySelectorAll('button.option').forEach(option=>{
+    option.disabled=true;
+    if(option.textContent.trim().toLowerCase()===item.a.toLowerCase()) option.classList.add('correct');
+    if(option===button && !isCorrect) option.classList.add('wrong');
+  });
+  const feedback=task.querySelector('.feedback');
+  feedback.textContent=isCorrect
+    ? '✓ Верно! '+explanations[group.id][index]
+    : '✗ Не совсем. Правильный ответ: '+item.a+'. '+explanations[group.id][index];
+  feedback.style.color=isCorrect?'#176b3e':'#b04468';
+}
 function render(){
   groups.forEach(group=>{
     const root=document.getElementById(group.id);
@@ -171,8 +193,7 @@ function render(){
         b.type='button';
         b.className='option';
         b.textContent=opt;
-        b.dataset.group=group.id;
-        b.dataset.index=String(index);
+        b.addEventListener('click',()=>selectAnswer(group,index,b));
         opts.appendChild(b);
       });
       wrap.appendChild(opts);
@@ -185,39 +206,6 @@ function render(){
     });
   });
 }
-
-/* Проверка срабатывает непосредственно при нажатии на любой вариант. */
-document.addEventListener('click',event=>{
-  const button=event.target.closest('button.option');
-  if(!button || submitted) return;
-  const group=groups.find(g=>g.id===button.dataset.group);
-  if(!group) return;
-  const index=Number(button.dataset.index);
-  const item=group.items[index];
-  if(!item) return;
-  const key=group.id+':'+index;
-  if(locked.has(key)) return;
-
-  locked.add(key);
-  const chosen=button.textContent.trim().toLowerCase();
-  answers.set(key,chosen);
-  const isCorrect=chosen===item.a.toLowerCase();
-  const task=button.closest('.task');
-  task.querySelectorAll('button.option').forEach(option=>{
-    option.disabled=true;
-    if(option.textContent.trim().toLowerCase()===item.a.toLowerCase()){
-      option.classList.add('correct');
-    }
-    if(option===button && !isCorrect){
-      option.classList.add('wrong');
-    }
-  });
-  const feedback=task.querySelector('.feedback');
-  feedback.textContent=isCorrect
-    ? '✓ Верно! '+explanations[group.id][index]
-    : '✗ Не совсем. Правильный ответ: '+item.a+'. '+explanations[group.id][index];
-  feedback.style.color=isCorrect?'#176b3e':'#b04468';
-});
 async function check(){
  if(submitted){document.getElementById('sendStatus').textContent='Попытка уже использована.';return;}
  const student=document.getElementById('studentName').value.trim();
