@@ -193,7 +193,8 @@ function render(){
         b.type='button';
         b.className='option';
         b.textContent=opt;
-        b.addEventListener('click',()=>selectAnswer(group,index,b));
+        b.dataset.group=group.id;
+        b.dataset.index=String(index);
         opts.appendChild(b);
       });
       wrap.appendChild(opts);
@@ -233,6 +234,14 @@ async function check(){
  document.getElementById('sendStatus').textContent='Отправляем ответы учителю…';
  try{await fetch(WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});document.getElementById('sendStatus').textContent='Результат отправлен учителю. Спасибо за работу!';}catch(e){document.getElementById('sendStatus').textContent='Не удалось отправить результат. Проверь интернет и попробуй ещё раз.';}
 }
+document.addEventListener('click',event=>{
+ const button=event.target.closest('button.option');
+ if(!button) return;
+ event.preventDefault();
+ const group=groups.find(g=>g.id===button.dataset.group);
+ const index=Number(button.dataset.index);
+ if(group && Number.isInteger(index)) selectAnswer(group,index,button);
+},true);
 document.getElementById('check').addEventListener('click',check);
 render();
 </script>
