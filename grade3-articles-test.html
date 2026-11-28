@@ -5,34 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>English Practice · Grade 3</title>
 <style>
-:root{--ink:#24334d;--muted:#69778d;--blue:#eaf1ff;--mint:#e7f5eb;--pink:#fff0eb;--line:#dce4ef;--accent:#5278c8}
+:root{--ink:#173d2b;--muted:#718477;--green:#159b58;--green-dark:#176b3e;--mint:#e1f4e9;--pale:#f4f8f1;--pink:#e85b91;--pink-pale:#f9dce8;--line:#dce9df;--lavender:#e5ddf5}
 *{box-sizing:border-box}
-body{margin:0;padding:22px;background:linear-gradient(135deg,#f7f9ff,#eef5f5);font-family:Arial,Helvetica,sans-serif;color:var(--ink)}
+body{margin:0;padding:22px;background:var(--pale);font-family:Arial,Helvetica,sans-serif;color:var(--ink)}
 main{max-width:900px;margin:auto}
 header{text-align:center;padding:12px 8px 22px}
-.tag{font-size:12px;letter-spacing:.15em;font-weight:700;color:#73819a}
-h1{font-size:clamp(26px,5vw,40px);margin:10px 0 7px}
-header p{margin:0;color:var(--muted)}
-.panel{background:white;border:1px solid var(--line);border-radius:20px;padding:20px;margin:14px 0;box-shadow:0 6px 22px #2c42600b}
-h2{font-size:20px;margin:0 0 7px}
-.note{color:var(--muted);font-size:14px;margin:0 0 16px}
-.task{padding:13px 0;border-top:1px solid #edf0f5}
-.task:first-of-type{border-top:0}
-.question{font-size:17px;font-weight:700;line-height:1.45;margin-bottom:9px}
-.options{display:flex;flex-wrap:wrap;gap:8px}
-.option{border:1px solid #d5deec;background:#f8faff;border-radius:999px;padding:8px 14px;font-size:15px;color:var(--ink);cursor:pointer}
-.option:hover{border-color:var(--accent)}
-.option.selected{background:#e5edff;border-color:#7896d8;font-weight:700}
-.option.correct{background:#e4f5e9;border-color:#62a878}
-.option.wrong{background:#fff0ed;border-color:#dc8d7e}
-.feedback{font-size:13px;min-height:18px;margin-top:7px;color:var(--muted)}
-.actions{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;margin:20px 0}
-button.primary,button.secondary{border:0;border-radius:999px;padding:12px 20px;font-weight:700;font-size:15px;cursor:pointer}
-.primary{background:#5278c8;color:white}
-.secondary{background:white;border:1px solid var(--line)!important;color:var(--ink)}
-#result{display:none;text-align:center;font-size:18px;font-weight:700;padding:18px;background:var(--mint);border-radius:16px;margin-top:12px}
+.tag{font-size:13px;letter-spacing:.13em;font-weight:800;color:var(--green)}
+h1{font-size:clamp(28px,5vw,42px);margin:10px 0 12px;color:var(--green-dark);font-weight:800}
+header p{display:inline-block;margin:0;color:var(--ink);background:#e4f3e8;border:2px solid var(--green);border-radius:14px;padding:9px 18px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin:15px 0;box-shadow:0 4px 15px #1c56300b}
+h2{font-size:20px;margin:0 0 7px;color:var(--green-dark)}
+.note{color:var(--muted);font-size:14px;margin:0 0 16px;line-height:1.5}
+.task{padding:14px;margin:13px 0 0;background:#fff;border:1.5px solid var(--lavender);border-radius:15px}
+.task:first-of-type{border-top:1.5px solid var(--lavender)}
+.question{font-size:17px;font-weight:700;line-height:1.45;margin:-14px -14px 12px;padding:11px 14px;background:var(--pink);color:#fff;border-radius:13px 13px 0 0}
+.options{display:flex;flex-wrap:wrap;gap:9px}
+.option{border:1.5px solid var(--lavender);background:#fff;border-radius:13px;padding:11px 16px;font-size:15px;color:var(--ink);cursor:pointer;min-width:76px;transition:background .15s,border-color .15s}
+.option:hover{border-color:var(--green)}
+.option.selected{background:var(--mint);border:2px solid var(--green);font-weight:700;padding:10.5px 15.5px}
+.option.correct{background:var(--mint);border:2px solid var(--green);font-weight:700;padding:10.5px 15.5px}
+.option.wrong{background:#fff0f2;border:2px solid var(--pink);padding:10.5px 15.5px}
+.option:disabled{cursor:default;opacity:1}
+.feedback{font-size:13px;min-height:18px;margin-top:9px;color:var(--muted)}
+.actions{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;margin:22px 0}
+button.primary,button.secondary{border:0;border-radius:14px;padding:14px 22px;font-weight:700;font-size:15px;cursor:pointer}
+.primary{background:var(--pink);color:white;box-shadow:0 3px 0 #d64d82}
+.primary:hover{background:#db4f86}
+.primary:disabled{opacity:.55;cursor:default}
+.secondary{background:#e7f4eb;border:1px solid var(--line)!important;color:var(--green-dark)}
+#result{display:none;text-align:center;font-size:18px;font-weight:700;padding:18px;background:var(--mint);color:var(--green-dark);border-radius:15px;margin-top:12px}
 footer{text-align:center;color:var(--muted);font-size:12px;padding:10px}
-@media(max-width:600px){body{padding:12px}.panel{padding:15px}.question{font-size:16px}}
+#studentName{background:#fff!important;border:1.5px solid var(--lavender)!important;border-radius:13px!important;color:var(--ink)}
+#studentName:focus{outline:2px solid #b9dfc7;outline-offset:1px}
+@media(max-width:600px){body{padding:12px}.panel{padding:15px}.question{font-size:16px}.option{flex:1 1 auto}}
 </style>
 </head>
 <body>
@@ -141,11 +146,11 @@ function render(){
 }
 async function check(){
  if(submitted){document.getElementById('sendStatus').textContent='Попытка уже использована.';return;}
+ const student=document.getElementById('studentName').value.trim();
+ if(!student){document.getElementById('sendStatus').textContent='Сначала напиши имя ученика.';document.getElementById('studentName').focus();return;}
  submitted=true;
  document.querySelectorAll('.option').forEach(b=>b.disabled=true);
  document.getElementById('check').disabled=true;
- const student=document.getElementById('studentName').value.trim();
- if(!student){document.getElementById('sendStatus').textContent='Сначала напиши имя ученика.';document.getElementById('studentName').focus();return;}
  let total=0,score=0;
  groups.forEach(group=>{
   group.items.forEach((item,index)=>{
